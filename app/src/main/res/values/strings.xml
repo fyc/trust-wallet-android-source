@@ -97,6 +97,7 @@
     <string name="title_version">Version</string>
     <string name="title_activity_token_list">Tokens</string>
     <string name="title_tokens">My Tokens</string>
+    <string name="title_web3">My Web3</string>
     <string name="prompt_private_key">Private key</string>
     <string name="error_import_private_key">Error importing private key</string>
     <string name="message_importing_private_key">Importing private key. One moment.</string>
@@ -135,6 +136,7 @@
     <string name="title_item_detail">Item Detail</string>
     <string name="title_my_address">My Address</string>
     <string name="title_my_tokens">My Tokens</string>
+    <string name="title_my_web3">My Web3</string>
     <string name="title_activity_send">Send</string>
     <string name="title_activity_confirmation">Confirm</string>
     <string name="title_transaction_details">Transaction Details</string>
@@ -230,4 +232,6 @@
     <string name="title_activity_barcode">Barcode Scan</string>
     <string name="error_add_token">Could not add token.</string>
     <string name="facebook">Facebook</string>
+
+    <string name="go">GO</string>
 </resources>

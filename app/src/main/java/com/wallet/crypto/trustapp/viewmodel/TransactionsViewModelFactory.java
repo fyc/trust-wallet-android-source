@@ -12,6 +12,7 @@ import com.wallet.crypto.trustapp.router.ExternalBrowserRouter;
 import com.wallet.crypto.trustapp.router.ManageWalletsRouter;
 import com.wallet.crypto.trustapp.router.MyAddressRouter;
 import com.wallet.crypto.trustapp.router.MyTokensRouter;
+import com.wallet.crypto.trustapp.router.MyWeb3Router;
 import com.wallet.crypto.trustapp.router.SendRouter;
 import com.wallet.crypto.trustapp.router.SettingsRouter;
 import com.wallet.crypto.trustapp.router.TransactionDetailRouter;
@@ -28,6 +29,7 @@ public class TransactionsViewModelFactory implements ViewModelProvider.Factory {
     private final TransactionDetailRouter transactionDetailRouter;
     private final MyAddressRouter myAddressRouter;
     private final MyTokensRouter myTokensRouter;
+    private final MyWeb3Router myWeb3Router;
     private final ExternalBrowserRouter externalBrowserRouter;
 
     public TransactionsViewModelFactory(
@@ -41,6 +43,7 @@ public class TransactionsViewModelFactory implements ViewModelProvider.Factory {
             TransactionDetailRouter transactionDetailRouter,
             MyAddressRouter myAddressRouter,
             MyTokensRouter myTokensRouter,
+            MyWeb3Router myWeb3Router,
             ExternalBrowserRouter externalBrowserRouter) {
         this.findDefaultNetworkInteract = findDefaultNetworkInteract;
         this.findDefaultWalletInteract = findDefaultWalletInteract;
@@ -52,6 +55,7 @@ public class TransactionsViewModelFactory implements ViewModelProvider.Factory {
         this.transactionDetailRouter = transactionDetailRouter;
         this.myAddressRouter = myAddressRouter;
         this.myTokensRouter = myTokensRouter;
+        this.myWeb3Router = myWeb3Router;
         this.externalBrowserRouter = externalBrowserRouter;
     }
 
@@ -69,6 +73,7 @@ public class TransactionsViewModelFactory implements ViewModelProvider.Factory {
                 transactionDetailRouter,
                 myAddressRouter,
                 myTokensRouter,
+                myWeb3Router,
                 externalBrowserRouter);
     }
 }

@@ -16,6 +16,7 @@ import com.wallet.crypto.trustapp.router.ExternalBrowserRouter;
 import com.wallet.crypto.trustapp.router.ManageWalletsRouter;
 import com.wallet.crypto.trustapp.router.MyAddressRouter;
 import com.wallet.crypto.trustapp.router.MyTokensRouter;
+import com.wallet.crypto.trustapp.router.MyWeb3Router;
 import com.wallet.crypto.trustapp.router.SendRouter;
 import com.wallet.crypto.trustapp.router.SettingsRouter;
 import com.wallet.crypto.trustapp.router.TransactionDetailRouter;
@@ -45,6 +46,7 @@ public class TransactionsViewModel extends BaseViewModel {
     private final TransactionDetailRouter transactionDetailRouter;
     private final MyAddressRouter myAddressRouter;
     private final MyTokensRouter myTokensRouter;
+    private final MyWeb3Router myWeb3Router;
     private final ExternalBrowserRouter externalBrowserRouter;
     private Disposable balanceDisposable;
     private Disposable transactionDisposable;
@@ -60,6 +62,7 @@ public class TransactionsViewModel extends BaseViewModel {
             TransactionDetailRouter transactionDetailRouter,
             MyAddressRouter myAddressRouter,
             MyTokensRouter myTokensRouter,
+            MyWeb3Router myWeb3Router,
             ExternalBrowserRouter externalBrowserRouter) {
         this.findDefaultNetworkInteract = findDefaultNetworkInteract;
         this.findDefaultWalletInteract = findDefaultWalletInteract;
@@ -71,6 +74,7 @@ public class TransactionsViewModel extends BaseViewModel {
         this.transactionDetailRouter = transactionDetailRouter;
         this.myAddressRouter = myAddressRouter;
         this.myTokensRouter = myTokensRouter;
+        this.myWeb3Router = myWeb3Router;
         this.externalBrowserRouter = externalBrowserRouter;
     }
 
@@ -163,6 +167,9 @@ public class TransactionsViewModel extends BaseViewModel {
         myTokensRouter.open(context, defaultWallet.getValue());
     }
 
+    public void showWeb3(Context context) {
+        myWeb3Router.open(context, defaultWallet.getValue());
+    }
     public void openDeposit(Context context, Uri uri) {
         externalBrowserRouter.open(context, uri);
     }

@@ -16,4 +16,9 @@
         android:icon="@drawable/token_icon"
         android:title="@string/title_tokens"
         />
+    <item
+        android:id="@+id/action_my_web3"
+        android:icon="@drawable/token_icon"
+        android:title="@string/title_web3"
+        />
 </menu>

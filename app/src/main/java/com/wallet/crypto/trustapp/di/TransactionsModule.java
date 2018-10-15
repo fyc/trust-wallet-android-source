@@ -11,6 +11,7 @@ import com.wallet.crypto.trustapp.router.ExternalBrowserRouter;
 import com.wallet.crypto.trustapp.router.ManageWalletsRouter;
 import com.wallet.crypto.trustapp.router.MyAddressRouter;
 import com.wallet.crypto.trustapp.router.MyTokensRouter;
+import com.wallet.crypto.trustapp.router.MyWeb3Router;
 import com.wallet.crypto.trustapp.router.SendRouter;
 import com.wallet.crypto.trustapp.router.SettingsRouter;
 import com.wallet.crypto.trustapp.router.TransactionDetailRouter;
@@ -33,6 +34,7 @@ class TransactionsModule {
             TransactionDetailRouter transactionDetailRouter,
             MyAddressRouter myAddressRouter,
             MyTokensRouter myTokensRouter,
+            MyWeb3Router myWeb3Router,
             ExternalBrowserRouter externalBrowserRouter) {
         return new TransactionsViewModelFactory(
                 findDefaultNetworkInteract,
@@ -45,6 +47,7 @@ class TransactionsModule {
                 transactionDetailRouter,
                 myAddressRouter,
                 myTokensRouter,
+                myWeb3Router,
                 externalBrowserRouter);
     }
 
@@ -96,6 +99,11 @@ class TransactionsModule {
     @Provides
     MyTokensRouter provideMyTokensRouter() {
         return new MyTokensRouter();
+    }
+
+    @Provides
+    MyWeb3Router provideMyWeb3Router() {
+        return new MyWeb3Router();
     }
 
     @Provides

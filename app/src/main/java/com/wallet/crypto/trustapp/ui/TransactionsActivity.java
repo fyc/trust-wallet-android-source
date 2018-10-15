@@ -162,6 +162,10 @@ public class TransactionsActivity extends BaseNavigationActivity implements View
                 viewModel.showTokens(this);
                 return true;
             }
+            case R.id.action_my_web3: {
+                viewModel.showWeb3(this);
+                return true;
+            }
             case R.id.action_send: {
                 viewModel.showSend(this);
                 return true;
