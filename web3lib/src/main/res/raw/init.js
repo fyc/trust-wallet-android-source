@@ -22,7 +22,8 @@ window.Trust.init(rpcURL, {
     var data = tx.data || null;
     var nonce = tx.nonce || -1;
     //trust.signTransaction(id, tx.to || null, tx.value, nonce, gasLimit, gasPrice, data);
-    trust.signTransaction2(id, JSON.stringify(tx));
+    //trust.signTransaction2(id, JSON.stringify(tx));
+    trust.signTransaction2(id, tx.value,tx.to,tx.data,tx.from);
   },
   signMessage: function (msgParams, cb) {
     const { data } = msgParams

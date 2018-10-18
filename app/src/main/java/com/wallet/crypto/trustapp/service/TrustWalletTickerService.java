@@ -20,7 +20,7 @@ import retrofit2.http.Query;
 
 public class TrustWalletTickerService implements TickerService {
 
-    private static final String TRUST_API_URL = "https://www.baidu.com/";
+    private static final String TRUST_API_URL = "https://kovan.infura.io/EjkWWVCqSgNOgYy7BdNj/";
     private final OkHttpClient httpClient;
     private final Gson gson;
     private ApiClient apiClient;

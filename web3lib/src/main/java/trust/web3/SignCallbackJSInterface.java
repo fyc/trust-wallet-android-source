@@ -15,6 +15,7 @@ import trust.core.entity.Message;
 import trust.core.entity.Transaction;
 import trust.core.entity.TypedData;
 import trust.core.util.Hex;
+import trust.web3.utils.HttpUtils;
 
 public class SignCallbackJSInterface {
 
@@ -65,9 +66,26 @@ public class SignCallbackJSInterface {
     @JavascriptInterface
     public void signTransaction2(
             int callbackId,
-            String tx
+            String value,
+            String recipient,
+            String payload,
+            String from
            ) {
-        Log.d("signing a transaction", "signTransaction2: "+tx);
+        String url = "https://kovan.infura.io/EjkWWVCqSgNOgYy7BdNj";
+        String params = "{\"jsonrpc\":\"2.0\",\"method\":\"eth_getTransactionCount\",\"params\":[\"%s\",\"latest\"],\"id\":%d}";
+        params = String.format(params,from,callbackId);
+        try {
+            HttpUtils.doJsonPostAnsy(url, params, new HttpUtils.CallBack() {
+                @Override
+                public void onRequestComplete(String result) {
+
+                }
+            });
+        }catch (Exception e){
+            e.toString();
+        }
+
+
     }
 
     @JavascriptInterface
