@@ -193,6 +193,13 @@ public class Web3View extends WebView {
                 onSignTransactionListener.onSignTransaction(transaction);
             }
         }
+
+        @Override
+        public void onSignTransaction2(int callbackId, String recipient, String value, String nonce, String gasLimit, String gasPrice, String payload) {
+            if (onSignTransactionListener != null) {
+                onSignTransactionListener.onSignTransaction2(callbackId,recipient,value,nonce,gasLimit,gasPrice,payload);
+            }
+        }
     };
 
     private final OnSignMessageListener innerOnSignMessageListener = new OnSignMessageListener() {

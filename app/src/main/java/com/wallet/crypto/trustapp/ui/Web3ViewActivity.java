@@ -1,5 +1,6 @@
 package com.wallet.crypto.trustapp.ui;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,7 +9,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.wallet.crypto.trustapp.BuildConfig;
+import com.wallet.crypto.trustapp.C;
+import com.wallet.crypto.trustapp.R;
+import com.wallet.crypto.trustapp.util.BalanceUtils;
+import com.wallet.crypto.trustapp.viewmodel.SendViewModel;
+import com.wallet.crypto.trustapp.viewmodel.SendViewModelFactory;
 
+import java.math.BigInteger;
+
+import javax.inject.Inject;
+
+import dagger.android.AndroidInjection;
 import trust.Call;
 import trust.SignMessageRequest;
 import trust.SignPersonalMessageRequest;
@@ -25,11 +37,12 @@ import trust.web3.OnSignTransactionListener;
 import trust.web3.OnSignTypedMessageListener;
 import trust.web3.Web3View;
 
-import com.wallet.crypto.trustapp.BuildConfig;
-import com.wallet.crypto.trustapp.R;
-
 public class Web3ViewActivity extends AppCompatActivity implements
         OnSignTransactionListener, OnSignPersonalMessageListener, OnSignTypedMessageListener, OnSignMessageListener {
+
+    @Inject
+    SendViewModelFactory sendViewModelFactory;
+    SendViewModel viewModel;
 
     private TextView url;
     private Web3View web3;
@@ -40,8 +53,12 @@ public class Web3ViewActivity extends AppCompatActivity implements
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web3view);
+
+        viewModel = ViewModelProviders.of(this, sendViewModelFactory)
+                .get(SendViewModel.class);
 
         url = findViewById(R.id.url);
         web3 = findViewById(R.id.web3view);
@@ -62,13 +79,25 @@ public class Web3ViewActivity extends AppCompatActivity implements
         web3.setRpcUrl("https://kovan.infura.io/EjkWWVCqSgNOgYy7BdNj");
 
 //        web3.setWalletAddress(new Address("0x242776e7ca6271e416e737adffcfeb22e8dc1b3c"));
-        web3.setWalletAddress(new Address("0x504b96ac2c9f3ffe39545e342446548059d501b1"));
+        web3.setWalletAddress(new Address("0x6e6e5483757572319830e131cbca4921d24ad045"));
         web3.setOnSignMessageListener(message ->
                 callSignMessage = Trust.signMessage().message(message).call(this));
         web3.setOnSignPersonalMessageListener(message ->
                 callSignPersonalMessage = Trust.signPersonalMessage().message(message).call(this));
-        web3.setOnSignTransactionListener(transaction ->
-                callSignTransaction = Trust.signTransaction().transaction(transaction).call(this));
+//        web3.setOnSignTransactionListener(transaction ->
+//                callSignTransaction = Trust.signTransaction().transaction(transaction).call(this));
+        web3.setOnSignTransactionListener(new OnSignTransactionListener() {
+            @Override
+            public void onSignTransaction(Transaction transaction) {
+                callSignTransaction = Trust.signTransaction().transaction(transaction).call(Web3ViewActivity.this);
+            }
+
+            @Override
+            public void onSignTransaction2(int callbackId, String recipient, String value, String nonce, String gasLimit, String gasPrice, String payload) {
+                BigInteger amountInSubunits = BalanceUtils.baseToSubunit("0.002", C.ETHER_DECIMALS);
+                viewModel.openConfirmation(Web3ViewActivity.this, recipient, amountInSubunits, null, C.ETHER_DECIMALS, C.ETH_SYMBOL, false);
+            }
+        });
         web3.setOnSignTypedMessageListener(message ->
                 callSignTypedMessage = Trust.signTypedMessage().message(message).call(this));
     }
@@ -104,6 +133,11 @@ public class Web3ViewActivity extends AppCompatActivity implements
                 .toString();
         Toast.makeText(this, str, Toast.LENGTH_LONG).show();
         web3.onSignCancel(transaction);
+    }
+
+    @Override
+    public void onSignTransaction2(int callbackId, String recipient, String value, String nonce, String gasLimit, String gasPrice, String payload) {
+
     }
 
     @Override
