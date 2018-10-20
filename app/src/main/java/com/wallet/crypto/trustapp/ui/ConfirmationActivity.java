@@ -51,6 +51,9 @@ public class ConfirmationActivity extends BaseActivity {
     private String contractAddress;
     private boolean confirmationForTokenTransfer = false;
 
+    BigInteger gasPrice;
+    BigInteger gasLimit;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         AndroidInjection.inject(this);
@@ -77,6 +80,10 @@ public class ConfirmationActivity extends BaseActivity {
         String symbol = getIntent().getStringExtra(C.EXTRA_SYMBOL);
         symbol = symbol == null ? C.ETH_SYMBOL : symbol;
 
+        gasPrice = new BigInteger(getIntent().getStringExtra(C.EXTRA_GAS_PRICE));
+        gasLimit = new BigInteger(getIntent().getStringExtra(C.EXTRA_GAS_LIMIT));
+        GasSettings settings = new GasSettings(gasPrice, gasLimit);
+
         confirmationForTokenTransfer = contractAddress != null;
 
         toAddressText.setText(toAddress);
@@ -90,6 +97,7 @@ public class ConfirmationActivity extends BaseActivity {
 
         viewModel.defaultWallet().observe(this, this::onDefaultWallet);
         viewModel.gasSettings().observe(this, this::onGasSettings);
+        viewModel.gasSettings().postValue(settings);
         viewModel.sendTransaction().observe(this, this::onTransaction);
         viewModel.progress().observe(this, this::onProgress);
         viewModel.error().observe(this, this::onError);

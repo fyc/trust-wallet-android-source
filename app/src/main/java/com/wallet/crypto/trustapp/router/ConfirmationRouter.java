@@ -20,4 +20,17 @@ public class ConfirmationRouter {
         intent.putExtra(C.EXTRA_SENDING_TOKENS, sendingTokens);
         context.startActivity(intent);
     }
+
+    public void open2(Context context, String to, BigInteger amountBigInteger, BigInteger gasPriceBigInteger,BigInteger gasLimitBigInteger,String contractAddress, int decimals, String symbol, boolean sendingTokens) {
+        Intent intent = new Intent(context, ConfirmationActivity.class);
+        intent.putExtra(C.EXTRA_TO_ADDRESS, to);
+        intent.putExtra(C.EXTRA_AMOUNT, amountBigInteger.toString());
+        intent.putExtra(C.EXTRA_GAS_PRICE, gasPriceBigInteger.toString());
+        intent.putExtra(C.EXTRA_GAS_LIMIT, gasLimitBigInteger.toString());
+        intent.putExtra(C.EXTRA_CONTRACT_ADDRESS, contractAddress);
+        intent.putExtra(C.EXTRA_DECIMALS, decimals);
+        intent.putExtra(C.EXTRA_SYMBOL, symbol);
+        intent.putExtra(C.EXTRA_SENDING_TOKENS, sendingTokens);
+        context.startActivity(intent);
+    }
 }

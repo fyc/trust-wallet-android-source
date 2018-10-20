@@ -31,6 +31,7 @@ import trust.core.entity.Address;
 import trust.core.entity.Message;
 import trust.core.entity.Transaction;
 import trust.core.entity.TypedData;
+import trust.core.util.Hex;
 import trust.web3.OnSignMessageListener;
 import trust.web3.OnSignPersonalMessageListener;
 import trust.web3.OnSignTransactionListener;
@@ -94,8 +95,11 @@ public class Web3ViewActivity extends AppCompatActivity implements
 
             @Override
             public void onSignTransaction2(int callbackId, String recipient, String value, String nonce, String gasLimit, String gasPrice, String payload) {
-                BigInteger amountInSubunits = BalanceUtils.baseToSubunit("0.002", C.ETHER_DECIMALS);
-                viewModel.openConfirmation(Web3ViewActivity.this, recipient, amountInSubunits, null, C.ETHER_DECIMALS, C.ETH_SYMBOL, false);
+//                BigInteger amountInSubunits = BalanceUtils.baseToSubunit("0.002", C.ETHER_DECIMALS);
+                BigInteger amountBigInteger = Hex.hexToBigInteger(value);
+                BigInteger gasPriceBigInteger = Hex.hexToBigInteger(gasPrice, BigInteger.ZERO);
+                BigInteger gasLimitBigInteger = Hex.hexToBigInteger(gasLimit, BigInteger.ZERO);
+                viewModel.openConfirmation2(Web3ViewActivity.this, recipient, amountBigInteger,gasPriceBigInteger,gasLimitBigInteger, null, C.ETHER_DECIMALS, C.ETH_SYMBOL, false);
             }
         });
         web3.setOnSignTypedMessageListener(message ->

@@ -227,11 +227,11 @@ public class SignCallbackJSInterface {
                 "\"from\": \"%s\"," +
                 "\"to\": \"%s\"," +
 //                "  \"gas\": \"0x76c0\"," +
-                "\"gasPrice\": \"%s\"," +
+//                "\"gasPrice\": \"%s\"," +
                 "\"value\": \"%s\"," +
                 "\"data\": \"%s\"" +
                 "}],\"id\":1}";
-        params = String.format(params, from, to, gasPrice, value, data);
+        params = String.format(params, from, to, value, data);
         try {
             OkHttpUtils.getInstance().postJsonAsyn(url, params, new OkHttpUtils.MyNetCall() {
                 @Override

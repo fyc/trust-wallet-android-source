@@ -21,4 +21,9 @@ public class SendViewModel extends BaseViewModel {
     public void openConfirmation(Context context, String to, BigInteger amount, String contractAddress, int decimals, String symbol, boolean sendingTokens) {
         confirmationRouter.open(context, to, amount, contractAddress, decimals, symbol, sendingTokens);
     }
+
+    //int callbackId, String recipient, String value, String nonce, String gasLimit, String gasPrice, String payload
+    public void openConfirmation2(Context context, String to, BigInteger amountBigInteger,BigInteger gasPriceBigInteger,BigInteger gasLimitBigInteger, String contractAddress, int decimals, String symbol, boolean sendingTokens) {
+        confirmationRouter.open2(context, to, amountBigInteger,gasPriceBigInteger,gasLimitBigInteger, contractAddress, decimals, symbol, sendingTokens);
+    }
 }
