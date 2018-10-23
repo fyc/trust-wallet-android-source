@@ -79,7 +79,7 @@ class JsInjectorClient {
         JsInjectorResponse result = null;
         try {
             Response response = httpClient.newCall(request).execute();
-            result = buildResponse(response);
+            result = buildResponse(response);//涉及注入init.js
         } catch (Exception ex) {
             Log.d("REQUEST_ERROR", "", ex);
         }
@@ -93,6 +93,7 @@ class JsInjectorClient {
         String initJs = loadInitJs(context);
         return String.format(template, jsLibrary, initJs);
 
+//        return "a";
     }
 
     @Nullable
@@ -109,7 +110,7 @@ class JsInjectorClient {
         Request request = response.request();
         Response prior = response.priorResponse();
         boolean isRedirect = prior != null && prior.isRedirect();
-        String result = injectJS(body);
+        String result = injectJS(body);//涉及注入init.js
         String contentType = getContentTypeHeader(response);
         String charset = getCharset(contentType);
         String mime = getMimeType(contentType);

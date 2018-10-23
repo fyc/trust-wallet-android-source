@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.webkit.WebView;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +38,7 @@ import trust.web3.OnSignPersonalMessageListener;
 import trust.web3.OnSignTransactionListener;
 import trust.web3.OnSignTypedMessageListener;
 import trust.web3.Web3View;
+import trust.web3.utils.LoadingDialogUtils;
 
 public class Web3ViewActivity extends AppCompatActivity implements
         OnSignTransactionListener, OnSignPersonalMessageListener, OnSignTypedMessageListener, OnSignMessageListener {
@@ -57,6 +59,7 @@ public class Web3ViewActivity extends AppCompatActivity implements
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web3view);
+        LoadingDialogUtils.init(this);
 
         viewModel = ViewModelProviders.of(this, sendViewModelFactory)
                 .get(SendViewModel.class);
@@ -104,6 +107,11 @@ public class Web3ViewActivity extends AppCompatActivity implements
         });
         web3.setOnSignTypedMessageListener(message ->
                 callSignTypedMessage = Trust.signTypedMessage().message(message).call(this));
+    }
+
+    private void loadUrl(){
+        web3.loadUrl(url.getText().toString());
+        web3.requestFocus();
     }
 
     @Override
@@ -206,5 +214,29 @@ public class Web3ViewActivity extends AppCompatActivity implements
                 }
             });
         }
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+
+        web3.pauseTimers();
+        if(isFinishing()){
+            web3.loadUrl("about:blank");
+            setContentView(new FrameLayout(this));
+        }
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        web3.resumeTimers();
+        loadUrl();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        LoadingDialogUtils.unInit();
     }
 }

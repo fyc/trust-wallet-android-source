@@ -1,5 +1,6 @@
 package trust.web3;
 
+import android.graphics.Bitmap;
 import android.net.http.SslError;
 import android.text.TextUtils;
 import android.util.Base64;
@@ -13,6 +14,7 @@ import java.io.ByteArrayInputStream;
 import java.util.Map;
 
 import okhttp3.HttpUrl;
+import trust.web3.utils.LoadingDialogUtils;
 
 import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.N;
@@ -103,7 +105,7 @@ public class Web3ViewClient extends WebViewClient {
         Map<String, String> headers = request.getRequestHeaders();
         JsInjectorResponse response;
         try {
-            response = jsInjectorClient.loadUrl(httpUrl.toString(), headers);
+            response = jsInjectorClient.loadUrl(httpUrl.toString(), headers); //涉及注入init.js
         } catch (Exception ex) {
             return null;
         }
@@ -144,5 +146,17 @@ public class Web3ViewClient extends WebViewClient {
         synchronized (lock) {
             isInjected = false;
         }
+    }
+
+    @Override
+    public void onPageStarted(WebView view, String url, Bitmap favicon) {
+        super.onPageStarted(view, url, favicon);
+        LoadingDialogUtils.setCancelable(true);
+        LoadingDialogUtils.show();
+    }
+    @Override
+    public void onPageFinished(WebView view, String url) {
+        super.onPageFinished(view, url);
+        LoadingDialogUtils.dismiss();
     }
 }

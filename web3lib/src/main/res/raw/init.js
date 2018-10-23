@@ -3,26 +3,28 @@ const addressHex = "%1$s";
 const rpcURL = "%2$s";
 const chainID = "%3$s";
 function executeCallback (id, error, value) {
+console.log('Trust Wallet - executeCallback', tx)
   Trust.executeCallback(id, error, value)
 }
 function onSignSuccessful(id, value) {
+console.log('Trust Wallet - onSignSuccessful', tx)
   Trust.executeCallback(id, null, value)
 }
 function onSignError(id, error) {
+console.log('Trust Wallet - onSignError', tx)
   Trust.executeCallback(id, error, null)
 }
 window.Trust.init(rpcURL, {
   getAccounts: function (cb) { cb(null, [addressHex]) },
   processTransaction: function (tx, cb){
-    console.log('signing a transaction', tx)
+    console.log('signing a transaction', JSON.stringify(tx))
     const { id = 8888 } = tx
     Trust.addCallback(id, cb)
     var gasLimit = tx.gasLimit || tx.gas || null;
     var gasPrice = tx.gasPrice || null;
     var data = tx.data || null;
     var nonce = tx.nonce || -1;
-    //trust.signTransaction(id, tx.to || null, tx.value, nonce, gasLimit, gasPrice, data);
-    //trust.signTransaction2(id, JSON.stringify(tx));
+//    trust.signTransaction(id, tx.to || null, tx.value, nonce, gasLimit, gasPrice, data);
     trust.signTransaction2(id, tx.value,tx.to,tx.data,tx.from);
   },
   signMessage: function (msgParams, cb) {
